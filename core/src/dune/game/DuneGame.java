@@ -49,7 +49,7 @@ public class DuneGame extends ApplicationAdapter {
             }
 
 
-            // Р•СЃР»Рё С‚Р°РЅРє РїСЂРёР±Р»РёР·РёР»Р·СЏ Рє РјСЏС‡РёРєСѓ РЅР° СЂР°СЃСЃС‚РѕСЏРЅРёРµ СѓРґР°СЂР°, С‚Рѕ РјРµРЅСЏРµРј РїРѕР»РѕР¶РµРЅРёРµ РјСЏС‡Р°
+            // Если танк приблизилзя к мячику на расстояние удара, то меняем положение мяча
             if ((Math.abs(ball.position.x - position.x) < 50) && (Math.abs(ball.position.y - position.y) < 50)) {
                 ball.position.x = (float)(Math.random() * (screenWidth - 50) + 30);
                 ball.position.y = (float)(Math.random() * (screenHeight - 50) + 30);
