@@ -19,6 +19,7 @@ public class WorldRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         gc.getMap().render(batch);
+        gc.getFlowerController().render(batch);
         gc.getTank().render(batch);
         gc.getProjectilesController().render(batch);
         batch.end();
