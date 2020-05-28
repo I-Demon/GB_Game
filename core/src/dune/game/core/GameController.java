@@ -6,19 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class GameController {
     private BattleMap map;
     private ProjectilesController projectilesController;
-    private Tank tank;
-    private FlowerController flowerController;
+    private TanksController tanksController;
 
-
-    public Tank getTank() {
-        return tank;
+    public TanksController getTanksController() {
+        return tanksController;
     }
 
     public ProjectilesController getProjectilesController() {
         return projectilesController;
     }
-
-    public FlowerController getFlowerController() { return flowerController;  }
 
     public BattleMap getMap() {
         return map;
@@ -29,18 +25,18 @@ public class GameController {
         Assets.getInstance().loadAssets();
         this.map = new BattleMap();
         this.projectilesController = new ProjectilesController(this);
-        this.tank = new Tank(this, 200, 200);;
-        this.flowerController = new FlowerController(this);
+        this.tanksController = new TanksController(this);
+        this.tanksController.setup(200, 200, Tank.Owner.PLAYER);
+        this.tanksController.setup(400, 400, Tank.Owner.PLAYER);
     }
 
     public void update(float dt) {
-        tank.update(dt);
+        tanksController.update(dt);
         projectilesController.update(dt);
-        flowerController.update(dt, tank.getPosition());
+        map.update(dt);
         checkCollisions(dt);
     }
 
     public void checkCollisions(float dt) {
-
     }
 }
