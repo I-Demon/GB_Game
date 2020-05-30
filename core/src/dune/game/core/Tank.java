@@ -2,6 +2,7 @@ package dune.game.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,6 +27,17 @@ public class Tank extends GameObject implements Poolable {
     private float moveTimer;
     private float timePerFrame;
     private int container;
+    private int containerCapacity;      // емкость контейнера
+
+    private boolean active;             // акктивность танка
+    private String containerPercent;    // Процент заполненности контейнера
+
+    public void setActive(boolean active) { // установка активновсти танка
+        this.active = active;
+    }
+
+
+    private BitmapFont font32;
 
     @Override
     public boolean isActive() {
@@ -35,8 +47,10 @@ public class Tank extends GameObject implements Poolable {
     public Tank(GameController gc) {
         super(gc);
         this.progressbarTexture = Assets.getInstance().getAtlas().findRegion("progressbar");
+        this.font32 = Assets.getInstance().getAssetManager().get("fonts/font32.ttf");
         this.timePerFrame = 0.08f;
         this.rotationSpeed = 90.0f;
+
     }
 
     public void setup(Owner ownerType, float x, float y) {
@@ -45,8 +59,10 @@ public class Tank extends GameObject implements Poolable {
         this.ownerType = ownerType;
         this.speed = 120.0f;
         this.hp = 100;
+        this.containerCapacity = 50;    // задаем емекость контейнера
         this.weapon = new Weapon(Weapon.Type.HARVEST, 3.0f, 1);
         this.destination = new Vector2(position);
+        this.active = false;
     }
 
     private int getCurrentFrameIndex() {
@@ -55,7 +71,9 @@ public class Tank extends GameObject implements Poolable {
 
     public void update(float dt) {
         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            destination.set(Gdx.input.getX(), 720 - Gdx.input.getY());
+            if (active) {   // только активный танк движется к точке назначения
+                destination.set(Gdx.input.getX(), 720 - Gdx.input.getY());
+            }
         }
         if (position.dst(destination) > 3.0f) {
             float angleTo = tmp.set(destination).sub(position).angle();
@@ -98,6 +116,7 @@ public class Tank extends GameObject implements Poolable {
                 int result = weapon.use(dt);
                 if (result > -1) {
                     container += gc.getMap().harvestResource(this, result);
+                    if (container >= containerCapacity) {container = containerCapacity;}
                 }
             } else {
                 weapon.reset();
@@ -121,13 +140,17 @@ public class Tank extends GameObject implements Poolable {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(textures[getCurrentFrameIndex()], position.x - 40, position.y - 40, 40, 40, 80, 80, 1, 1, angle);
-        if (weapon.getType() == Weapon.Type.HARVEST && weapon.getUsageTimePercentage() > 0.0f) {
-            batch.setColor(0.2f, 0.2f, 0.0f, 1.0f);
-            batch.draw(progressbarTexture, position.x - 32, position.y + 30, 64, 12);
-            batch.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-            batch.draw(progressbarTexture, position.x - 30, position.y + 32, 60 * weapon.getUsageTimePercentage(), 8);
-            batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        }
+
+           batch.draw(textures[getCurrentFrameIndex()], position.x - 40, position.y - 40, 40, 40, 80, 80, 1, 1, angle);
+           if (weapon.getType() == Weapon.Type.HARVEST && weapon.getUsageTimePercentage() > 0.0f) {
+               batch.setColor(0.2f, 0.2f, 0.0f, 1.0f);
+               batch.draw(progressbarTexture, position.x - 32, position.y + 30, 64, 12);
+               batch.setColor(1.0f, 1.0f, 0.0f, 1.0f);
+               batch.draw(progressbarTexture, position.x - 30, position.y + 32, 60 * weapon.getUsageTimePercentage(), 8);
+               batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+               containerPercent = Integer.toString((int) (((float) container / containerCapacity) * 100)) + "%";
+               font32.draw(batch, containerPercent, position.x - 32, position.y + 70, 100, 1, false);
+
+       }
     }
 }
