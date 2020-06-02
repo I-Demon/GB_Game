@@ -96,7 +96,7 @@ public class Tank extends GameObject implements Poolable {      //
         lifeTime += dt;
         // Если у танка есть цель, он пытается ее атаковать
         if (target != null) {
-            if (!target.isActive()) { target = null; }      // если цель уничтожена, говорим что цели больше нет
+            if (!target.isActive()) { target = null; }      // dshu если цель уничтожена, говорим что цели больше нет
             else {
                 destination.set(target.position);
                 if (position.dst(target.position) < 240.0f) {
@@ -180,7 +180,7 @@ public class Tank extends GameObject implements Poolable {      //
             batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
-        if (getOwnerType() == Owner.AI) {
+        if (getOwnerType() == Owner.AI) {   // dshu рисуем уровень здоровья у вражеских танков
             hpPercent = Integer.toString((int) (((float) hp / hpMax) * 100)) + "%";
             font32.draw(batch, hpPercent, position.x - 32, position.y + 70, 100, 1, false);
         }
