@@ -1,42 +1,18 @@
 package dune.game.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class GameController {
-    private BattleMap map;
-    private ProjectilesController projectilesController;
-    private TanksController tanksController;
 
-    public TanksController getTanksController() {
-        return tanksController;
-    }
-
-    public ProjectilesController getProjectilesController() {
-        return projectilesController;
-    }
-
-    public BattleMap getMap() {
-        return map;
-    }
-
-    // Инициализация игровой логики
-    public GameController() {
-        Assets.getInstance().loadAssets();
-        this.map = new BattleMap();
-        this.projectilesController = new ProjectilesController(this);
-        this.tanksController = new TanksController(this);
-        this.tanksController.setup(200, 200, Tank.Owner.PLAYER);
-        this.tanksController.setup(400, 400, Tank.Owner.PLAYER);
-    }
-
-    public void update(float dt) {
-        tanksController.update(dt);
-        projectilesController.update(dt);
-        map.update(dt);
-        checkCollisions(dt);
-    }
-
-    public void checkCollisions(float dt) {
-    }
 }
