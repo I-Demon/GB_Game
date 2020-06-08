@@ -2,6 +2,7 @@ package dune.game.core.units;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import dune.game.core.*;
 
@@ -89,18 +90,26 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
 
     public void update(float dt) {
         lifeTime += dt;
-        // Р•СЃР»Рё Сѓ С‚Р°РЅРєР° РµСЃС‚СЊ С†РµР»СЊ, РѕРЅ РїС‹С‚Р°РµС‚СЃСЏ РµРµ Р°С‚Р°РєРѕРІР°С‚СЊ
+        // Если у танка есть цель, он пытается ее атаковать
         if (target != null) {
             destination.set(target.getPosition());
             if (position.dst(target.getPosition()) < minDstToActiveTarget) {
                 destination.set(position);
             }
         }
-        // Р•СЃР»Рё С‚Р°РЅРєСѓ РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕРµС…Р°С‚СЊ РґРѕ РєР°РєРѕР№-С‚Рѕ С‚РѕС‡РєРё, РѕРЅ СЂР°Р±РѕС‚Р°РµС‚ РІ СЌС‚РѕРј СѓСЃР»РѕРІРёРё
+        // Если танку необходимо доехать до какой-то точки, он работает в этом условии
         if (position.dst(destination) > 3.0f) {
             float angleTo = tmp.set(destination).sub(position).angle();
             angle = rotateTo(angle, angleTo, rotationSpeed, dt);
             moveTimer += dt;
+
+            if (gc.getMap().getResourceCount(position) > 0) {
+                for (int i = 0; i < gc.getMap().getResourceCount(position); i++) {
+                    gc.getParticleController().setup(MathUtils.random(getCellX() * 80, getCellX() * 80 + 80), MathUtils.random(getCellY() * 80, getCellY() * 80 + 80), MathUtils.random(-20, 20), MathUtils.random(-20, 20), 0.3f, 0.5f, 0.4f,
+                            0, 0, 1, 0.1f, 1, 1, 1, 0.4f);
+                }
+            }
+
             tmp.set(speed, 0).rotate(angle);
             position.mulAdd(tmp, dt);
             if (position.dst(destination) < 120.0f && Math.abs(angleTo - angle) > 10) {
@@ -127,11 +136,11 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
         if (position.y < 40) {
             position.y = 40;
         }
-        if (position.x > 1240) {
-            position.x = 1240;
+        if (position.x > BattleMap.MAP_WIDTH_PX - 40) {
+            position.x = BattleMap.MAP_WIDTH_PX - 40;
         }
-        if (position.y > 680) {
-            position.y = 680;
+        if (position.y > BattleMap.MAP_HEIGHT_PX - 40) {
+            position.y = BattleMap.MAP_HEIGHT_PX - 40;
         }
     }
 
