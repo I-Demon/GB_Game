@@ -102,6 +102,15 @@ public class BattleMap {
                 cells[i][j].render(batch);
             }
         }
+        // dshu {Begin} рисуем область внизу экрана, в которой харвестр должен сбрасывать ресурсы
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 2; j++) {
+                batch.setColor(0.2f, 0.2f, 0.0f, 1.0f);
+                batch.draw(grassTexture, i * 80, j * 80);
+                batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+        }
+        // dshu {End}
     }
 
     public void update(float dt) {

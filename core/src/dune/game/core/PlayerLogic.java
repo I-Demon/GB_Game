@@ -7,11 +7,14 @@ import dune.game.core.units.BattleTank;
 import dune.game.core.units.Owner;
 import dune.game.core.units.UnitType;
 
+//
+
 public class PlayerLogic {
     private GameController gc;
     private int money;
     private int unitsCount;
     private int unitsMaxCount;
+    private int score;  // dshu для подсчета собранных ресурсов
 
     public int getMoney() {
         return money;
@@ -19,6 +22,10 @@ public class PlayerLogic {
 
     public int getUnitsCount() {
         return unitsCount;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public int getUnitsMaxCount() {
@@ -45,6 +52,16 @@ public class PlayerLogic {
 
     public void unitProcessing(AbstractUnit unit) {
         if (unit.getUnitType() == UnitType.HARVESTER) {
+
+
+            //dshu {Begin}  Если харвестер приехал в точку сброса ресурсов и у него полный контейнер, то освобождаем контейнер и увеличиваем счет игрока
+            if ((unit.getCellX() <= 4) && (unit.getCellY() <= 2) && (unit.getContainer() == unit.getContainerCapacity()) ) {
+              score += unit.getContainer();
+              unit.setContainer(0);
+            }
+            //dshu {End}
+
+
             unit.commandMoveTo(gc.getMouse());
             return;
         }

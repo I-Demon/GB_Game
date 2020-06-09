@@ -25,11 +25,24 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
     protected float moveTimer;
     protected float lifeTime;
     protected float timePerFrame;
+
     protected int container;
     protected int containerCapacity;
 
     protected Targetable target;
     protected float minDstToActiveTarget;
+
+    public int getContainer() {
+        return container;
+    }
+
+    public void setContainer(int container) {
+        this.container = container;
+    }
+
+    public int getContainerCapacity() {
+        return containerCapacity;
+    }
 
     @Override
     public TargetType getType() {
