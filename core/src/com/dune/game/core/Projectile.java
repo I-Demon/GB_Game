@@ -1,11 +1,11 @@
-package dune.game.core;
+package com.dune.game.core;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import dune.game.core.interfaces.Poolable;
-import dune.game.core.units.AbstractUnit;
+import com.dune.game.core.units.AbstractUnit;
 
 public class Projectile extends GameObject implements Poolable {
     private AbstractUnit owner;

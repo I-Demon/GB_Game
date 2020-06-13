@@ -1,4 +1,4 @@
-package dune.game.screens;
+package com.dune.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dune.game.screens.utils.Assets;
+import com.dune.game.core.Assets;
 
 
 public class LoadingScreen extends AbstractScreen {

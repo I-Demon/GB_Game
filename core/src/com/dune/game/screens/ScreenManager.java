@@ -1,4 +1,4 @@
-package dune.game.screens;
+package com.dune.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.*;
-import dune.game.DuneGame;
-import dune.game.screens.utils.Assets;
+import com.dune.game.DuneGame;
+import com.dune.game.core.Assets;
 
 public class ScreenManager {
     public enum ScreenType {

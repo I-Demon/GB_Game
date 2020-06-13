@@ -1,14 +1,11 @@
-package dune.game.core.units;
+package com.dune.game.core.units;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import dune.game.core.units.types.TargetType;
-import dune.game.core.units.types.UnitType;
-import dune.game.screens.utils.Assets;
-import dune.game.core.GameController;
-import dune.game.core.interfaces.Targetable;
-import dune.game.core.Weapon;
-import dune.game.core.users_logic.BaseLogic;
+import com.dune.game.core.Assets;
+import com.dune.game.core.GameController;
+import com.dune.game.core.Targetable;
+import com.dune.game.core.Weapon;
 
 public class BattleTank extends AbstractUnit {
     public BattleTank(GameController gc) {
@@ -24,10 +21,9 @@ public class BattleTank extends AbstractUnit {
     }
 
     @Override
-    public void setup(BaseLogic baseLogic, float x, float y) {
+    public void setup(Owner ownerType, float x, float y) {
         this.position.set(x, y);
-        this.baseLogic = baseLogic;
-        this.ownerType = baseLogic.getOwnerType();
+        this.ownerType = ownerType;
         this.hp = this.hpMax;
         this.destination = new Vector2(position);
     }

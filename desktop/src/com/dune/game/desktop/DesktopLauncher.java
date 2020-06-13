@@ -1,8 +1,8 @@
-package dune.game.desktop;
+package com.dune.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import dune.game.DuneGame;
+import com.dune.game.DuneGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

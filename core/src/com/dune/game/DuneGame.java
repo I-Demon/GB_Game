@@ -1,18 +1,19 @@
-package dune.game;
+package com.dune.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dune.game.screens.GameScreen;
-import dune.game.screens.ScreenManager;
+import com.dune.game.screens.GameScreen;
+import com.dune.game.screens.ScreenManager;
 
 public class DuneGame extends Game {
     private SpriteBatch batch;
 
     // Домашнее задание:
     // 1. Разобраться с кодом
-    // 2. Харвестеры AI должны собирать ресурсы и отвозить на базу
+    // 2. Сделайте площадку, куда харвестеры могут сдавать ресуры, и они должны начисляться игроку
+    // 3. Сделайте GUI для экрана меню (начать игру, выйти из игры) [ Выход через: Gdx.app.exit(); ]
 
     @Override
     public void create() {
