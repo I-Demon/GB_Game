@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import dune.game.screens.utils.Assets;
 
 public class BattleMap {
+
     private class Cell {
         private Building buildingEntrance;
         private int cellX, cellY;
@@ -83,6 +84,9 @@ public class BattleMap {
     public void unblockGroundCell(int cellX, int cellY) {
         cells[cellX][cellY].unblockGroundPass();
     }
+
+    //public Cell[][] getCells() {return cells; }
+
 
     public void setupBuildingEntrance(int cellX, int cellY, Building building) {
         cells[cellX][cellY].buildingEntrance = building;

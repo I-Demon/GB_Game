@@ -9,6 +9,8 @@ import dune.game.core.users_logic.BaseLogic;
 import dune.game.screens.utils.Assets;
 
 public class Harvester extends AbstractUnit {
+    private
+
     public Harvester(GameController gc) {
         super(gc);
         this.textures = Assets.getInstance().getAtlas().findRegion("tankcore").split(64, 64)[0];
