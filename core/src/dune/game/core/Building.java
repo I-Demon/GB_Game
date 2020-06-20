@@ -7,6 +7,7 @@ import dune.game.core.interfaces.Poolable;
 import dune.game.core.users_logic.BaseLogic;
 import dune.game.screens.utils.Assets;
 
+//dshu правки
 public class Building extends GameObject implements Poolable {
     public enum Type {
         STOCK
@@ -78,5 +79,11 @@ public class Building extends GameObject implements Poolable {
             }
         }
         gc.getMap().setupBuildingEntrance(cellX, cellY - 1, null);
+    }
+
+    public Vector2 getBuildingEntrancePos() {  //dshu позиция входа в здание
+        Vector2 res = new Vector2();
+        res.set(cellX * BattleMap.CELL_SIZE + BattleMap.CELL_SIZE / 2 , (cellY-1) *  BattleMap.CELL_SIZE + BattleMap.CELL_SIZE / 2);
+        return res;
     }
 }
