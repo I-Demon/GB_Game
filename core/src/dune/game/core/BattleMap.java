@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import dune.game.screens.utils.Assets;
 
+//dshu правки
 public class BattleMap {
 
     private class Cell {
@@ -90,6 +91,8 @@ public class BattleMap {
 
     public void setupBuildingEntrance(int cellX, int cellY, Building building) {
         cells[cellX][cellY].buildingEntrance = building;
+        cells[cellX][cellY].resourceRegenerationRate = 0.0f;
+        cells[cellX][cellY].resource = 0;
     }
 
     public BattleMap() {
@@ -152,4 +155,5 @@ public class BattleMap {
     public Building getBuildingEntrance(int cellX, int cellY) {
         return cells[cellX][cellY].buildingEntrance;
     }
+
 }

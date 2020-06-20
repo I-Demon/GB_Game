@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import dune.game.core.BattleMap;
+import dune.game.core.Building;
 import dune.game.core.GameController;
 import dune.game.core.units.AbstractUnit;
 import dune.game.core.units.BattleTank;
@@ -13,6 +14,8 @@ import dune.game.core.units.types.UnitType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//dshu правки
 
 public class AiLogic extends BaseLogic {
     private float timer;
@@ -48,10 +51,24 @@ public class AiLogic extends BaseLogic {
                 aiBattleTank.commandAttack(findNearestTarget(aiBattleTank, tmpPlayerBattleTanks));
             }
 
+            // dshu {Begin}
+
             for (int i = 0; i < tmpAiHarvesters.size(); i++) {
                 Harvester aiHarvester = tmpAiHarvesters.get(i);
-                aiHarvester.moveBy(findNearestResourse(tmpAiHarvesters));
+                if ((aiHarvester.isNeedClearContainer()) && (aiHarvester.getContainer() == 0)) { //Если харвестер сдал ресурсы, то сбрасываем переменную NeedClearContainer
+                    aiHarvester.setNeedClearContainer(false);
+                }
+                if ((aiHarvester.getContainer() == aiHarvester.getContainerCapacity()) && (!aiHarvester.isNeedClearContainer())) {  // Если харвестер полностью заполнил контейнер, посылаем его на базу, сдавать ресурсы
+                       aiHarvester.setNeedClearContainer(true);
+                       aiHarvester.commandMoveTo(findNearestBase(aiHarvester));
+                }
+                else
+                if ((!aiHarvester.isNeedClearContainer()) && (gc.getMap().getResourceCount(aiHarvester.getDestination()) == 0 )) {  // Направляем харвестер к ближайшему ресурсу с максимальным значением ресурса
+                    aiHarvester.commandMoveTo(findNearestResourse(aiHarvester));
+                }
             }
+
+            // dshu {End}
         }
     }
 
@@ -69,36 +86,46 @@ public class AiLogic extends BaseLogic {
         return target;
     }
 
+    public Vector2 findNearestBase(Harvester aiHarvester) {
+        float minDist = 1000000.0f;
+        Vector2 tmp = new Vector2();
+        for (int i = 0; i < gc.getBuildingsController().getActiveList().size(); i++) {
+            Building b = gc.getBuildingsController().getActiveList().get(i);
+            if (b != null && b.getType() == Building.Type.STOCK && b.getOwnerLogic() == aiHarvester.getBaseLogic()) {
+                return b.getBuildingEntrancePos();
+            }
+        }
+        return tmp;
 
-    public Vector2 findNearestResourse(List<Harvester> possibleTargetList) {
+    }
+
+
+    public Vector2 findNearestResourse(Harvester aiHarvester) {
         Vector2 target = new Vector2();
         Vector2 tmp = new Vector2();
         float minWeightRes = 1000000.0f;
-        //float weightRes;
+        float curweightRes;
 
-        //  Cell tmpCell;
         int cellSize = gc.getMap().CELL_SIZE;
 
-
-
         // dshu Begin
-        for (int k = 0; k < possibleTargetList.size(); k++) {
-            AbstractUnit possibleTarget = possibleTargetList.get(k);
 
             for (int i = 0; i < gc.getMap().COLUMNS_COUNT; i++) {
                 for (int j = 0; j < gc.getMap().ROWS_COUNT; j++) {
-                    tmp.set(i * cellSize - (cellSize/2), j * cellSize - (cellSize/2));
-                    float currentDst = possibleTarget.getPosition().dst(tmp);
-                    float curweightRes = gc.getMap().getResourceCount(tmp) * currentDst;
+                    tmp.set(i * cellSize + (cellSize / 2) , j * cellSize + (cellSize / 2));
+                    float currentDst = aiHarvester.getPosition().dst(tmp);
+                    if (gc.getMap().getResourceCount(tmp) > 0) {
+                        curweightRes = (6 - gc.getMap().getResourceCount(tmp)) * currentDst;    // Максимальный размер ресурса = 5, поэтому вычисляем 6 - ресурс, что бы при максимальном ресурсе получить 1
 
-                    if (curweightRes < minWeightRes) {
-                        target.set(tmp);
-                        minWeightRes = curweightRes;
+                        if (curweightRes < minWeightRes) {
+                            target.set(tmp);
+                            minWeightRes = curweightRes;
+                        }
                     }
                 }
                 }
             // dshu End
-        }
+        //}
         return target;
     }
 }

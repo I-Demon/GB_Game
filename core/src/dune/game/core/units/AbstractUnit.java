@@ -13,6 +13,8 @@ import dune.game.core.units.types.UnitType;
 import dune.game.core.users_logic.BaseLogic;
 import dune.game.screens.utils.Assets;
 
+//dshu правки
+
 public abstract class AbstractUnit extends GameObject implements Poolable, Targetable {
     protected BaseLogic baseLogic;
     protected UnitType unitType;
@@ -47,6 +49,12 @@ public abstract class AbstractUnit extends GameObject implements Poolable, Targe
     public BaseLogic getBaseLogic() {
         return baseLogic;
     }
+
+    public Vector2 getDestination() { return destination; }
+
+    public int getContainer() { return container;}
+
+    public int getContainerCapacity() {   return containerCapacity;  }
 
     public boolean takeDamage(int damage) {
         if (!isActive()) {
